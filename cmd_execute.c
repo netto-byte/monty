@@ -8,7 +8,7 @@ void get_command(void)
 	instruction_t get[] = {
 		{"push", push}, {"pall", pall}, {"pint", pint},
 		{"pop", pop}, {"swap", swap}, {"add", add},
-		{"nop", nop}, {NULL, NULL}
+		{"nop", nop}, {"sub", sub}, {NULL, NULL}
 	};
 	int i;
 	char *cmd;
