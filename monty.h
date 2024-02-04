@@ -40,6 +40,7 @@ typedef struct instruction_s
  * struct data_s - structure with program datas
  * @line_number: Current command index
  * @size: size of stack
+ * @FIFO: for switching among stack and queue
  * @file: Pointer to a monty file
  * @command: command line read from a monty file
  * @stack: pointer to a doubly linked list
@@ -50,6 +51,7 @@ typedef struct data_s
 {
 	unsigned int line_number;
 	int size;
+	int FIFO;
 	FILE *file;
 	char *command;
 	stack_t *stack;
@@ -72,8 +74,14 @@ void mul(stack_t **stack, unsigned int line_number);
 void mod(stack_t **stack, unsigned int line_number);
 void pchar(stack_t **stack, unsigned int line_number);
 void pstr(stack_t **stack, unsigned int line_number);
-void rotl(stack_t **stack, unsigned int line_mnumber);
+void rotl(stack_t **stack, unsigned int line_number);
 void rotr(stack_t **stack, unsigned int line_number);
+void rotr(stack_t **stack, unsigned int line_number);
+void stack(stack_t **stack, unsigned int line_number);
+void queue(stack_t **stack, unsigned int line_number);
+
+void add_at_beg(char *data);
+void add_at_end(char *data);
 
 void free_data(void);
 void free_stack(stack_t **stack);
