@@ -11,7 +11,7 @@ void get_command(void)
 		{"nop", nop}, {"sub", sub}, {"div", _div},
 		{"mul", mul}, {"mod", mod}, {"pchar", pchar},
 		{"pstr", pstr}, {"rotl", rotl}, {"rotr", rotr},
-		{NULL, NULL}
+		{"stack", stack}, {"queue", queue}, {NULL, NULL}
 	};
 	int i;
 	char *cmd;
