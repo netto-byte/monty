@@ -1,6 +1,6 @@
 #include "monty.h"
 
-data_t data = {0, 0, NULL, NULL, NULL};
+data_t data = {0, 0, 0, NULL, NULL, NULL};
 /**
  * main - monty code interpreter
  * @argc: Number of arguments passed to program
