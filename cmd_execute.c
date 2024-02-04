@@ -15,7 +15,7 @@ void get_command(void)
 	char *cmd;
 
 	cmd = strtok(data.command, " \t\n");
-	if (cmd == NULL)
+	if (cmd == NULL || *cmd == '#')
 		return;
 
 	for (i = 0; get[i].opcode; i++)
