@@ -1,14 +1,58 @@
 #include "monty.h"
 
 /**
- * push - pushes an element to the stack
- * @stack: Pointer to a stack
- * @line_number: command index in a monty file
+ * push - Adds a new data to stack.
+ * @stack: pointer to a stack
+ * @line_number: current command line number of monty_file
  */
 void push(stack_t **stack, unsigned int line_number)
 {
-	stack_t *new;
 	char *num = strtok(NULL, " \t\n");
+
+	(void)stack;
+	if (num == NULL || not_number(num))
+	{
+		fprintf(stderr, "L%u: usage: push integer\n", line_number);
+		free_data();
+		exit(EXIT_FAILURE);
+	}
+
+	if (data.FIFO)
+		add_at_end(num);
+	else
+		add_at_beg(num);
+}
+
+/**
+ * not_number - Checks if a token content characters otherthan digits
+ * @token: token for validation
+ *
+ * Return: 1 if it contain character(s) otherthan digits, otherwise 0.
+ */
+int not_number(char *token)
+{
+	if (*token == '-')
+		token++;
+
+	while (*token)
+	{
+		/* check if there's a non digit character */
+		if (!isdigit(*token))
+			return (1);
+		token++;
+	}
+
+	return (0);
+}
+
+/**
+ * add_at_beg - Adds a new node at the beginning of a stack
+ *
+ * Return: void.
+ */
+void add_at_beg(char *num)
+{
+	stack_t *new;
 
 	new = malloc(sizeof(stack_t));
 	if (new == NULL)
@@ -18,44 +62,49 @@ void push(stack_t **stack, unsigned int line_number)
 		exit(EXIT_FAILURE);
 	}
 
-	if (num == NULL || not_number(num))
-	{
-		fprintf(stderr, "L%u: usage: push integer\n", line_number);
-		free(new);
-		free_data();
-		exit(EXIT_FAILURE);
-	}
-
 	new->prev = NULL;
 	new->n = atoi(num);
 
-	if (*stack == NULL)
+	if (data.stack == NULL)
 		new->next = NULL;
 	else
-	{
-		new->next = *stack;
-		(*stack)->prev = new;
-	}
-	*stack = new;
+		new->next = data.stack;
+
+	data.stack = new;
 	data.size++;
 }
 
 /**
- * not_number - Checks if a string is not a number
- * @str: String to validate
+ * add_at_end - Adds a new node at the end of a stack
  *
- * Return: 1 if not a number, otherwise 0
+ * Return: void.
  */
-int not_number(char *str)
+void add_at_end(char *num)
 {
-	if (*str == '-')
-		str++;
+	stack_t *new, *ptr = data.stack;
 
-	while (*str)
+	new = malloc(sizeof(stack_t));
+	if (new == NULL)
 	{
-		if (!isdigit(*str))
-			return (1);
-		str++;
+		fprintf(stderr, "Error: malloc failed\n");
+		free_data();
+		exit(EXIT_FAILURE);
 	}
-	return (0);
+
+	new->n = atoi(num);
+	new->next = NULL;
+
+	if (data.stack == NULL)
+	{
+		new->prev = NULL;
+		data.stack = new;
+	}
+	else
+	{
+		while (ptr->next)
+			ptr = ptr->next;
+		ptr->next = new;
+		new->prev = ptr;
+	}
+	data.size++;
 }
